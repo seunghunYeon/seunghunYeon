@@ -1,0 +1,1373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="NSTBTB010_T08" left="0" top="0" width="1226" height="605" titletext="시즌/행사" onload="NSTBTB010_T08_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_insert" taborder="4" text="행추가" onclick="btn_insert_onclick" cssclass="btn_WF_Grid" top="53" right="65" width="63" height="30" userdata="STORGO030" visible="true"/>
+        <Button id="btn_del" taborder="5" text="행삭제" onclick="btn_del_onclick" cssclass="btn_WF_Grid" top="53" right="0" width="63" height="30" userdata="STORGO030" visible="true"/>
+        <Grid id="grd_main" cssclass="grd_WF_Style01" taborder="6" binddataset="ds_main" useinputpanel="false" autosizingtype="row" summarytype="top" left="0" top="87" bottom="0" selecttype="row" autoenter="none" autofittype="col" style="background:#ffffffff;" right="0" onenterdown="grd_main_onenterdown" oncelldblclick="grd_main_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="130"/>
+                <Column size="253"/>
+                <Column size="120"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="150"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="PLU코드"/>
+                <Cell col="1" text="상품명"/>
+                <Cell col="2" text="반품구분"/>
+                <Cell col="3" text="현재고"/>
+                <Cell col="4" text="운영재고"/>
+                <Cell col="5" text="매입단가"/>
+                <Cell col="6" cssclass="CellInput" text="요청수량"/>
+                <Cell col="7" text="요청금액"/>
+                <Cell col="8" cssclass="CellEssential" text="사유구분"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="normal" text="bind:GDS_CD"/>
+                <Cell col="1" displaytype="normal" style="align:left;" text="bind:GDS_NM"/>
+                <Cell col="2" displaytype="normal" text="bind:RTN_TP_NM"/>
+                <Cell col="3" displaytype="number" style="align:right;" text="bind:NSTCK_QTY" mask="###,##0" calendardisplaynulltype="default"/>
+                <Cell col="4" displaytype="number" style="align:right;" text="bind:MGMT_STCK" mask="###,##0" calendardisplaynulltype="default"/>
+                <Cell col="5" displaytype="number" style="align:right;" text="bind:SUP_PRC" mask="###,##0" calendardisplaynulltype="default"/>
+                <Cell col="6" displaytype="number" edittype="masknumber" style="align:right;background:#fefcb6ff;background2:#fefcb6ff;selectbackground:#fefcb6ff;" text="bind:REQ_QTY" mask="!##9" editlimit="3" editautoselect="true" editlimitbymask="integer" calendardisplaynulltype="default"/>
+                <Cell col="7" displaytype="number" style="align:right;" text="bind:AMT" mask="###,##0" calendardisplaynulltype="default"/>
+                <Cell col="8" displaytype="combo" edittype="combo" text="bind:STR_RTN_RSN_TP" combodataset="ds_ComCd305" combocodecol="CD" combodatacol="NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static07" taborder="17" text="반품 상품 리스트" cssclass="sta_WF_Subtitle" left="0" top="34" width="133" height="53"/>
+        <Static id="st_chkMessage" taborder="23" text="message" left="407" top="53" width="517" height="30" style="align:center middle;" cssclass="sta_WF_DescriptionB02"/>
+        <MaskEdit id="med_orgAmt" taborder="24" value="0" readonly="true" mask="###,###" cssclass="noborder" enable="false" left="647" top="53" width="126" height="30" style=":disabled {displaynulltextcolor:#aaaaaaff;background:#f1f1f1ff;border:1 solid #d1d1d1ff ;color:#222222ff;align:right middle;}" tabstop="false" visible="false"/>
+        <MaskEdit id="med_rtnAmt" taborder="25" value="0" readonly="true" mask="###,###" cssclass="noborder" enable="false" left="775" top="53" width="126" height="30" style=":disabled {displaynulltextcolor:#aaaaaaff;background:#f1f1f1ff;border:1 solid #d1d1d1ff ;color:#222222ff;align:right middle;}" tabstop="false" visible="false"/>
+        <Static id="Static01" taborder="27" cssclass="sta_WF_Labelbg" left="0" top="1" right="0" height="32"/>
+        <Static id="Static00" taborder="28" text="품목수" cssclass="sta_WF_Label" left="0" top="1" width="115" height="32"/>
+        <Static id="Static08" taborder="29" text="반품가능금액" cssclass="sta_WF_Label" left="603" top="1" width="115" height="32" visible="false"/>
+        <Static id="Static09" taborder="30" text="요청금액" cssclass="sta_WF_Label" left="260" top="1" width="115" height="32"/>
+        <Static id="Static11" taborder="32" cssclass="sta_WF_Label_Top" left="0" top="0" right="0" height="2"/>
+        <Static id="Static12" taborder="33" cssclass="sta_WF_Label_Bottom" left="0" top="32" right="0" height="2"/>
+        <Button id="btn_conf" taborder="3" text="전표생성" top="5" userdata="STORGO030" onclick="btn_conf_onclick" left="512" width="81" height="24" cssclass="btn_WF_Grid"/>
+        <MaskEdit id="med_amt" taborder="1" readonly="true" mask="###,###" cssclass="noborder" enable="false" left="385" top="5" width="125" height="24" style=":disabled {displaynulltextcolor:#aaaaaaff;background:#f1f1f1ff;border:1 solid #d1d1d1ff ;color:#222222ff;align:right middle;}" value="0"/>
+        <MaskEdit id="med_rtnAblAmt" taborder="2" readonly="true" mask="###,###" cssclass="noborder" enable="false" left="728" top="5" width="125" height="24" style=":disabled {displaynulltextcolor:#aaaaaaff;background:#f1f1f1ff;border:1 solid #d1d1d1ff ;color:#222222ff;align:right middle;}" value="0" visible="false"/>
+        <MaskEdit id="med_itemCnt" taborder="0" readonly="true" mask="###,###" cssclass="noborder" left="125" top="5" width="125" height="24" enable="false" style=":disabled {displaynulltextcolor:#aaaaaaff;background:#f1f1f1ff;border:1 solid #d1d1d1ff ;color:#222222ff;align:right middle;}" value="0"/>
+        <Static id="Static03" taborder="34" text="h53" cssclass="Guide_Color2" visible="false" left="466" top="33" width="30" height="53"/>
+        <Edit id="ed_searchNm" taborder="35" onkeydown="ed_searchNm_onkeydown" left="128" top="53" width="140" height="30" tooltiptext="edit"/>
+        <Button id="btn_searchNm" taborder="36" text="조회" onclick="btn_searchNm_onclick" cssclass="btn_WF_CRUD" left="270" top="53" width="66" height="30"/>
+        <Button id="btn_excelUpload2" taborder="37" text="엑셀업로드" onclick="btn_excelUpload_onclick" cssclass="btn_WF_Grid" visible="true" top="53" right="130" width="88" height="30"/>
+      </Layout>
+    </Layouts>
+    <Bind/>
+    <Objects>
+      <Dataset id="ds_main" useclientlayout="true" oncolumnchanged="ds_main_oncolumnchanged" cancolumnchange="ds_main_cancolumnchange">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="32"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="RTN_REQ_DT" type="STRING" size="256"/>
+          <Column id="BIZLOC_ORG_CD" type="STRING" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="RTN_TP" type="STRING" size="256"/>
+          <Column id="DVY_CD" type="STRING" size="256"/>
+          <Column id="PTN_CD" type="STRING" size="256"/>
+          <Column id="VEN_CD" type="STRING" size="256"/>
+          <Column id="TAX_TP" type="STRING" size="256"/>
+          <Column id="TAX_RT" type="STRING" size="256"/>
+          <Column id="HDQ_SAL_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="SUP_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="CONF_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="ORG_AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="STR_RTN_RSN_TP" type="STRING" size="256"/>
+          <Column id="RTN_RSN" type="STRING" size="256"/>
+          <Column id="CONF_YN" type="STRING" size="256"/>
+          <Column id="CONF_DT" type="STRING" size="256"/>
+          <Column id="GDS_CD" type="STRING" size="256"/>
+          <Column id="GDS_NM" type="STRING" size="256"/>
+          <Column id="NSTCK_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_TP_NM" type="STRING" size="256"/>
+          <Column id="RTN_ENBL_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="MGMT_STCK" type="STRING" size="256"/>
+          <Column id="RTN_ED_DT" type="STRING" size="256"/>
+          <Column id="DELYN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cond">
+        <ColumnInfo>
+          <Column id="ORG_CD" type="STRING" size="256"/>
+          <Column id="RTN_REQ_DT" type="STRING" size="256"/>
+          <Column id="TO_DAY" type="STRING" size="256"/>
+          <Column id="REQ_AMT" type="STRING" size="256"/>
+          <Column id="RTN_AMT" type="STRING" size="256"/>
+          <Column id="RTN_TP" type="STRING" size="256"/>
+          <Column id="LOAN_TP" type="STRING" size="256"/>
+          <Column id="PGM_TP" type="STRING" size="256"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="WM_SHIFT_TP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_rtnClosDdInfo" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="ORG_CD" type="STRING" size="256"/>
+          <Column id="RTN_ST_DD" type="STRING" size="256"/>
+          <Column id="RTN_ED_DD" type="STRING" size="256"/>
+          <Column id="RTN_ABL_AMT" type="STRING" size="256"/>
+          <Column id="RTN_ABL_YN" type="STRING" size="256"/>
+          <Column id="RTN_ORG_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ComCd305">
+        <ColumnInfo>
+          <Column id="CD" type="STRING" size="2"/>
+          <Column id="NM" type="STRING" size="3"/>
+          <Column id="CDNM" type="STRING" size="256"/>
+          <Column id="VAL1" type="STRING" size="256"/>
+          <Column id="VAL2" type="STRING" size="256"/>
+          <Column id="VAL3" type="STRING" size="256"/>
+          <Column id="VAL4" type="STRING" size="256"/>
+          <Column id="VAL5" type="STRING" size="256"/>
+          <Column id="NUM1" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_main_Temp" useclientlayout="true" oncolumnchanged="ds_main_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="32"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="RTN_REQ_DT" type="STRING" size="256"/>
+          <Column id="BIZLOC_ORG_CD" type="STRING" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="RTN_TP" type="STRING" size="256"/>
+          <Column id="DVY_CD" type="STRING" size="256"/>
+          <Column id="PTN_CD" type="STRING" size="256"/>
+          <Column id="VEN_CD" type="STRING" size="256"/>
+          <Column id="TAX_TP" type="STRING" size="256"/>
+          <Column id="TAX_RT" type="STRING" size="256"/>
+          <Column id="HDQ_SAL_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="SUP_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="CONF_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="ORG_AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="STR_RTN_RSN_TP" type="STRING" size="256"/>
+          <Column id="RTN_RSN" type="STRING" size="256"/>
+          <Column id="CONF_YN" type="STRING" size="256"/>
+          <Column id="CONF_DT" type="STRING" size="256"/>
+          <Column id="GDS_CD" type="STRING" size="256"/>
+          <Column id="GDS_NM" type="STRING" size="256"/>
+          <Column id="NSTCK_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_TP_NM" type="STRING" size="256"/>
+          <Column id="RTN_ENBL_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="MGMT_STCK" type="STRING" size="256"/>
+          <Column id="RTN_ED_DT" type="STRING" size="256"/>
+          <Column id="DELYN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_pluList" useclientlayout="true" updatecontrol="true">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="GDS_CD" type="STRING" size="256"/>
+          <Column id="GDS_NM" type="STRING" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="HDQ_SAL_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="STR_SAL_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="SUP_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="TAX_TP" type="STRING" size="256"/>
+          <Column id="TAX_RT" type="STRING" size="256"/>
+          <Column id="PTN_CD" type="STRING" size="256"/>
+          <Column id="VEN_CD" type="STRING" size="256"/>
+          <Column id="DVY_CD" type="STRING" size="256"/>
+          <Column id="CATE_CD" type="STRING" size="256"/>
+          <Column id="SCATE_NM" type="STRING" size="256"/>
+          <Column id="ITEM_TP" type="STRING" size="256"/>
+          <Column id="RTN_TP" type="STRING" size="256"/>
+          <Column id="VEN_NM" type="STRING" size="256"/>
+          <Column id="DVY_NM" type="STRING" size="256"/>
+          <Column id="NSTCK_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="MGMT_STCK" type="BIGDECIMAL" size="256"/>
+          <Column id="ITEM_TP_NM" type="STRING" size="256"/>
+          <Column id="RTN_TP_NM" type="STRING" size="256"/>
+          <Column id="STR_RTN_ENBLE_YN" type="STRING" size="256"/>
+          <Column id="RTN_ENBL_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="P_RTN_ENBL_YN" type="STRING" size="256"/>
+          <Column id="RTN_ED_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_slipHdr" useclientlayout="true" onrowposchanged="ds_main_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="SLIP_NO" type="STRING" size="256"/>
+          <Column id="RTN_REQ_DT" type="STRING" size="256"/>
+          <Column id="BIZLOC_ORG_CD" type="STRING" size="256"/>
+          <Column id="BIZLOC_CD" type="STRING" size="256"/>
+          <Column id="BIZLOC_NM" type="STRING" size="256"/>
+          <Column id="WM_SHIFT_TP" type="STRING" size="256"/>
+          <Column id="WM_SHIFT_TP_NM" type="STRING" size="256"/>
+          <Column id="DVY_CD" type="STRING" size="256"/>
+          <Column id="ITEM_CNT" type="STRING" size="256"/>
+          <Column id="RTN_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="WM_CONF_TP" type="STRING" size="256"/>
+          <Column id="WM_CONF_TP_NM" type="STRING" size="256"/>
+          <Column id="CONF_DT" type="STRING" size="256"/>
+          <Column id="DVY_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="SLIP_NO" type="STRING" size="256"/>
+          <Column id="SLIP_SEQ" type="STRING" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="SUP_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_RSN_TP" type="STRING" size="256"/>
+          <Column id="GDS_CD" type="STRING" size="256"/>
+          <Column id="GDS_NM" type="STRING" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="RTN_RSN_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_InvChk" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="INVCHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ozHdr">
+        <ColumnInfo>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="SLIP_NO" type="STRING" size="256"/>
+          <Column id="WM_SHIFT_TP" type="STRING" size="256"/>
+          <Column id="WM_SHIFT_NM" type="STRING" size="256"/>
+          <Column id="RTN_REQ_DT" type="STRING" size="256"/>
+          <Column id="WM_CENT_NM" type="STRING" size="256"/>
+          <Column id="BIZLOC_CD" type="STRING" size="256"/>
+          <Column id="BIZLOC_NM" type="STRING" size="256"/>
+          <Column id="ITM_NM" type="STRING" size="256"/>
+          <Column id="SLIP_NO_H" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_ozDtl">
+        <ColumnInfo>
+          <Column id="CO_CD" type="STRING" size="256"/>
+          <Column id="SLIP_NO" type="STRING" size="256"/>
+          <Column id="SLIP_SEQ" type="BIGDECIMAL" size="256"/>
+          <Column id="PLU_CD" type="STRING" size="256"/>
+          <Column id="SUP_PRC" type="BIGDECIMAL" size="256"/>
+          <Column id="REQ_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="AMT" type="BIGDECIMAL" size="256"/>
+          <Column id="VAT" type="BIGDECIMAL" size="256"/>
+          <Column id="RTN_RSN_TP" type="STRING" size="256"/>
+          <Column id="GDS_NM" type="STRING" size="256"/>
+          <Column id="RTN_RSN_NM" type="STRING" size="256"/>
+          <Column id="SLIP_NO_H" type="STRING" size="256"/>
+          <Column id="GDS_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="REQ_QTY">1</Col>
+            <Col id="GDS_CD">8809297195541</Col>
+            <Col id="AMT">15200</Col>
+            <Col id="PLU_CD">8809297195541</Col>
+            <Col id="RTN_QTY">1</Col>
+            <Col id="SLIP_SEQ">1</Col>
+            <Col id="SUP_PRC">15200</Col>
+            <Col id="CO_CD">1002</Col>
+            <Col id="SLIP_NO">190627121050000001</Col>
+            <Col id="VAT">0</Col>
+            <Col id="GDS_NM">직납완구)브랜드20000</Col>
+          </Row>
+          <Row>
+            <Col id="REQ_QTY">1</Col>
+            <Col id="GDS_CD">8809297195572</Col>
+            <Col id="AMT">17480</Col>
+            <Col id="PLU_CD">8809297195572</Col>
+            <Col id="RTN_QTY">1</Col>
+            <Col id="SLIP_SEQ">2</Col>
+            <Col id="SUP_PRC">17480</Col>
+            <Col id="CO_CD">1002</Col>
+            <Col id="SLIP_NO">190627121050000001</Col>
+            <Col id="VAT">0</Col>
+            <Col id="GDS_NM">직납완구)브랜드23000</Col>
+          </Row>
+          <Row>
+            <Col id="REQ_QTY">1</Col>
+            <Col id="GDS_CD">8809297198153</Col>
+            <Col id="AMT">8580</Col>
+            <Col id="PLU_CD">8809297198153</Col>
+            <Col id="RTN_QTY">1</Col>
+            <Col id="SLIP_SEQ">3</Col>
+            <Col id="SUP_PRC">8580</Col>
+            <Col id="CO_CD">1002</Col>
+            <Col id="SLIP_NO">190627121050000001</Col>
+            <Col id="VAT">0</Col>
+            <Col id="GDS_NM">직납완구)일반13000</Col>
+          </Row>
+          <Row>
+            <Col id="REQ_QTY">1</Col>
+            <Col id="GDS_CD">8809297198245</Col>
+            <Col id="AMT">16500</Col>
+            <Col id="PLU_CD">8809297198245</Col>
+            <Col id="RTN_QTY">1</Col>
+            <Col id="SLIP_SEQ">4</Col>
+            <Col id="SUP_PRC">16500</Col>
+            <Col id="CO_CD">1002</Col>
+            <Col id="SLIP_NO">190627121050000001</Col>
+            <Col id="VAT">0</Col>
+            <Col id="GDS_NM">직납완구)일반25000</Col>
+          </Row>
+          <Row>
+            <Col id="REQ_QTY">1</Col>
+            <Col id="GDS_CD">8809297198283</Col>
+            <Col id="AMT">23100</Col>
+            <Col id="PLU_CD">8809297198283</Col>
+            <Col id="RTN_QTY">1</Col>
+            <Col id="SLIP_SEQ">5</Col>
+            <Col id="SUP_PRC">23100</Col>
+            <Col id="CO_CD">1002</Col>
+            <Col id="SLIP_NO">190627121050000001</Col>
+            <Col id="VAT">0</Col>
+            <Col id="GDS_NM">직납완구)일반35000</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**********************************************************************************************
+ * 01. 업무구분        	: 반품
+ * 02. 화면            	: NSTBTB010_T08.xfdl
+ * 03. 화면설명        	: BSDC반품
+ * 04. 관련화면/서비스 	: 
+ * 05. 수정이력        	: 
+ **********************************************************************************************
+ *  수정일     이  름   	사유 
+ **********************************************************************************************
+ *  2022-03-30      	최초작성
+                        시즌/행사 소스를 기준으로 작성. (단, 반품금액 제한은 하지 않는다.)
+ ***********************************************************************************************/
+  
+/*==============================================================================================
+* 1. Include Library JS File
+*===============================================================================================*/
+
+/*==============================================================================================
+* 2. 로컬 변수  선언
+*===============================================================================================*/ 
+this.ORG_CD = "" ;				// 점포코드
+this.RTN_REQ_DT = "" ;			// 요청일자
+this.RTN_CLOSE = false ; 		// 반품마감
+this.RTN_CLOS_DD_CHK_YN = "N";	// 점포마감시간 확인여부
+this.B_SEARCH = false ; 		// 조회여부
+this.WM_SHIFT_TP = "1220" 		// 물류이동유형(B134)    //TODO ysh. 코드 수정(S013,B134) 추가 필요할수도 있음.
+this.LOAN_TP = "64"       		// (여신구분(A122) = 초도반품(64))  //TODO ysh. 코드 추가 및 수정 필요할수도 있음(현재는 초도반품꺼를 같이 쓰는중).	
+this.PGM_TP = "7"		  		// 프로그램구분   = 7 BSDC반품
+this.RTN_TP = "A"         		// S013 반퓸유형  A BSDC반품
+
+this.EXCEL_SAVE_YN = "N"        // 엑셀업로르 저장여부.
+
+/*==============================================================================================
+* 3. Form onload 
+*===============================================================================================*/ 
+this.NSTBTB010_T08_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.gfn_formOnload(obj);
+	this.fn_setDefaultValue();		    // 4.4. 기본값 설정	
+	// 3.2. call onload function
+	this.fn_setButton();				// 4.1. 버턴 초기화 or Dispaly
+ 	this.fn_setDataset();			    // 4.2. DataSet 에 초기데이터  
+ 	this.fn_setCommonCode(obj);			// 4.3. 공통코드]	
+ 	// 반품 비활성.						
+	//this.fn_setRtnActive(false);
+	
+	// 부모창의 기본값 세팅및 조회함수 호출
+	this.parent.fn_setSubTabBaseInfo() ; 
+
+}
+
+/*==============================================================================================
+* 4. Load 후 초기설정 및 Data Setting
+*===============================================================================================*/
+// 4.1. 버턴 초기화 or Dispaly
+this.fn_setButton = function() {
+
+	//사용자 권한 처리
+	/*
+		조회:"btn_read", 신규:"btn_new", 저장:"btn_save", 삭제:"btn_delete", 엑셀:"btn_excel", 출력:"btn_print", 
+		커스텀1:"btn_custom1", 커스텀2:"btn_custom2", 커스텀3:"btn_custom3"
+	*/
+}
+
+// 4.2. DataSet 에 초기데이터 Load
+this.fn_setDataset = function() 
+{
+}
+
+// 4.3. 공통코드
+this.fn_setCommonCode = function(obj) {
+	// 공통코드 조회
+	// @see NXCombo
+	var combo = new NXCombo(obj);
+	
+	//반품구분
+	combo.addCombo({'type':'C', 'comcd':'D305', 'dataset':this.ds_ComCd305 });
+	
+	combo.execute("COMBO", "fn_callback");	// 공통코드가 조회되고 나서 반드시 수행되어야 할 로직이 있을 경우 공통코드를 가져온 후 호출되는 callback함수에서 해당 내용 기술
+	
+}
+
+// 4.4. 기본값 설정
+this.fn_setDefaultValue = function() 
+{
+ 	// 4.4.1 Grid 초기화(rownum 표시여부, CheckBox 표시여부(DataSet에 CHK값 필수))
+ 	this.gfn_addGridCols(this.grd_main,{bRowNum:true,bCheckBox:false});
+	
+	// 그리드 메세지 초기화
+	this.st_chkMessage.set_text("") ;
+}
+
+/*==============================================================================================
+* 5. Button Event Area. (공통 버턴 이벤트 함수 영역: 초기화, 조회, 저장, 등...)
+*===============================================================================================*/
+ this.fn_save = function(sActionCd, sActionTypeCd){
+  
+	//반품내역 체크 
+	if(this.ds_main.getRowCount() == 0)
+	{
+		NXCore.alert("Err.E162","반품내역"); //{0} 이 없습니다.
+		return;
+	}  
+	
+	if (!NXCore.isModified(this.ds_main)) {
+		// 변경내역이 없습니다.
+		NXCore.alert("Inf.I030");
+		return;
+	} 
+	
+	//2. 상품에 대한 반품가능수량 체크
+	var iReqQty = 0 ;		// 반품수량
+	var iRtnEnblQty = 0;	// 반품가능 수량
+	var sRtnTp = "" ;		// 반품구분
+	/* 반품가능수량 체크할 필요 없음 2022.04.13 회의
+	for(var i=0; i<this.ds_main.getRowCount(); i++){
+		if(this.ds_main.getRowType(i) != Dataset.ROWTYPE_NORMAL){
+			iReqQty = nexacro.toNumber(this.ds_main.getColumn(i, "REQ_QTY"), 0) ;
+			iRtnEnblQty = nexacro.toNumber(this.ds_main.getColumn(i, "RTN_ENBL_QTY"), 0) ;
+			sRtnTp = this.ds_main.getColumn(i, "RTN_TP")
+			
+			if(sRtnTp == "1" && iReqQty > 0){
+				if(iReqQty > iRtnEnblQty){
+					// {0} 이(가) {1} 보다 큽니다.
+					NXCore.alert("Err.E141", ["입력수량","반품가능수량"]) ;
+					
+					// 그리드포커스 이동
+					this.grd_main.setCellPos(this.grd_main.getBindCellIndex("body", "REQ_QTY"));
+					this.ds_main.set_rowposition(i);
+					this.grd_main.showEditor();
+					this.grd_main.setFocus();
+					return ;
+				}
+			}
+		}
+	}
+	*/
+	
+	//4. 요청일자 체크
+	var dtFrom = new NXDate();
+	var sToDay = dtFrom.toFormatString() ;
+	if(this.RTN_REQ_DT != sToDay){
+		// 메세지 : 요청일자가 현재일자와 다릅니다.\n요청일자를 현재일자로 변경하여 저장하시겠습니까?
+		if ( !NXCore.confirm("Qst.Q051") ) {
+			return;
+		}
+		
+		// 상품 반품 요청일자를 현재일자로 변경 후 작업
+		this.RTN_REQ_DT = sToDay ;
+		for(var i=0; i<this.ds_main.getColumn(); i++){
+			this.ds_main.setColumn(i, "RTN_REQ_DT", this.RTN_REQ_DT) ;
+		} 
+	} 
+
+	//0인  건 삭제.
+	for(var i = this.ds_main.getRowCount() ; i >= 0  ; i--)
+	{
+ 		if ( this.ds_main.getOrgColumn(i,"REQ_QTY") != 0 && this.ds_main.getColumn(i,"REQ_QTY") == 0)
+		{
+			continue;
+		}
+		else if ( this.ds_main.getColumn(i,"REQ_QTY") == null || nexacro.toNumber(this.ds_main.getColumn(i,"REQ_QTY")) == 0)
+		{
+			this.ds_main.deleteRow(i);
+		}
+	}
+	 
+	
+	if( !NXCore.confirm("Com.C201") ) return;  // 저장하시겠습니까?
+	
+	this.ds_main_Temp.clearData() ;
+	this.ds_cond.clearData() ;
+	this.ds_cond.addRow() ;
+	this.ds_cond.setColumn(0, "ORG_CD"		, this.ORG_CD) ;
+	this.ds_cond.setColumn(0, "RTN_REQ_DT"	, this.RTN_REQ_DT) ;
+	this.ds_cond.setColumn(0, "PGM_TP"		, this.PGM_TP) ; 	 // (프로그램구분)
+	this.ds_cond.setColumn(0, "RTN_TP"		, this.RTN_TP) ; 	 // S013 반퓸유형 
+	this.ds_cond.setColumn(0, "WM_SHIFT_TP"	, this.WM_SHIFT_TP); //물류이동유형
+	
+	var tx = new NXTransaction(this);
+	tx.setActionCd(sActionCd,sActionTypeCd);
+	tx.addInDataset("ds_cond", "ds_cond");
+	tx.addInDataset("ds_main", "ds_main:U");
+	tx.addOutDataset("ds_main_Temp", "ds_main_Temp");
+	tx.setCallback("fn_callback");
+	tx.setService("ns/tb/tb010/saveRtnItem.do");
+	tx.execute("saveRtnItem");
+	 
+}
+
+// 반품목록조회
+this.fn_search = function(sActionCd, sActionTypeCd){
+	
+	//금액초기화
+	this.med_itemCnt.set_value("");
+	this.med_amt.set_value("");
+	
+	// 점포선택여부 확인.
+	if(NXCore.isEmpty(this.ORG_CD)){
+		// {0} 을(를) 선택하여 주십시오.
+		NXCore.alert("Inf.I005", "점포") ;
+		return ;
+	} 
+	 
+	if(NXCore.isModified(this.ds_main)){
+		// 변경된 사항이 있습니다.\n계속 진행시 변경사항은 반영되지 않습니다.\n계속 진행하시겠습니까?
+		if( !NXCore.confirm("Qst.Q050") ) { 
+			return;
+		}
+	}
+	
+	// 컨트롤 및 변수 초기화
+	this.fn_resetControl() ;
+			
+	this.ds_cond.clearData() ;
+	this.ds_cond.addRow() ;
+	this.ds_cond.setColumn(0, "ORG_CD"		, this.ORG_CD) ;
+	this.ds_cond.setColumn(0, "RTN_REQ_DT"	, this.RTN_REQ_DT) ;
+	this.ds_cond.setColumn(0, "PGM_TP"		, this.PGM_TP) ; // (프로그램구분 = BSDC[0])
+	this.ds_cond.setColumn(0, "RTN_TP"	    , this.RTN_TP) ;
+	
+	var tx = new NXTransaction(this);
+	tx.setActionCd(sActionCd,sActionTypeCd);
+	tx.addInDataset("ds_cond", "ds_cond");
+	tx.addOutDataset("ds_main", "ds_main");
+	tx.setCallback("fn_callback");
+	tx.setService("ns/tb/tb010/selectRtnList.do");
+	tx.execute("selectRtnList");
+	  
+}
+
+// 출력(전표출력)
+this.fn_print = function(){
+//	NXCore.alert("기능 개발중....") ;
+}
+/*==============================================================================================
+* 6. User CallBack Function.(사용자 콜백 함수)
+*===============================================================================================*/
+this.fn_callback = function(strSvcID, nErrorID) {
+
+	switch ( strSvcID ) 
+	{
+		case "selectRtnClosDd" : // 점포 반품 일자 조회(반품한도도 동시에 체크)
+			if(nErrorID == "0"){
+				this.RTN_CLOS_DD_CHK_YN = "Y" ;	// 점포마감시간 확인여부
+				
+				// 반품마감 유무 확인
+				var iRtnAblAmt =  nexacro.toNumber(this.ds_rtnClosDdInfo.getColumn(0, "RTN_ABL_AMT"), 0) ; // 반품가용금액
+				var sRtnOrgCd  = this.ds_rtnClosDdInfo.getColumn(0, "RTN_ORG_CD") ; // 반품점포코드
+				var sRtnAblYn  = this.ds_rtnClosDdInfo.getColumn(0, "RTN_ABL_YN") ; // 반품가능여부
+				
+				/*
+				// BSD반품이 경우 반품금액에 제한을 두지 않는다.
+				this.med_rtnAblAmt.set_value(iRtnAblAmt) ;
+				
+				if(sRtnOrgCd == "XXXXXXXXXX"){
+					this.med_rtnAblAmt.set_value("0") ;
+					//반품 한도금액이 존재하지 않습니다.
+					this.st_chkMessage.set_text("반품 한도금액이 존재하지 않습니다.") ;
+					
+				} else {
+					this.st_chkMessage.set_text("") ;
+				}
+				*/
+				
+				/* BSD반품이 경우 반품일자는 보지 않는다. 
+				if(sRtnAblYn == "0"){
+					this.RTN_CLOSE = false ;
+					this.fn_setRtnActive(false) ; // 반품비활성화
+				} else {
+					this.RTN_CLOSE = true ;
+					this.fn_setRtnActive(true) ; // 반품활성화
+				}
+				*/
+
+				//  점포 반품요청 조회
+				this.fn_search() ;
+			}
+			
+			break;
+		
+		case "selectRtnList" : //  점포 반품요청 조회
+			if(nErrorID == "0"){
+				// 조회여부
+				this.B_SEARCH = true ; 
+				
+				// 총 반품금액 계산
+				this.fn_getTotalAmt("amt");
+				
+				if(this.EXCEL_SAVE_YN == "Y")
+				{
+					// {0} 하시겠습니까?
+					if ( NXCore.confirm("Qst.Q010", "전표를 생성") ) {
+						// 저장 후 전표생성
+						this.fn_callSlip() ;
+					}
+				}
+				
+				this.EXCEL_SAVE_YN = "N"
+				
+			}
+			break;
+			
+		case "saveRtnItem" : // 상품 반품 저장
+			if(nErrorID == "0"){
+				// 컨트롤 초기화.
+				this.fn_resetControl();
+				
+				// 조회여부
+				this.B_SEARCH = true ;
+				
+				this.ds_main.copyData(this.ds_main_Temp) ;
+				
+				// 총 반품금액 계산
+				this.fn_getTotalAmt("amt");
+				this.med_orgAmt.set_value(this.med_amt.value) ;
+				
+				for(var i=0; i<this.ds_main.getRowCount(); i++){
+					this.ds_main.setColumn(i, "ORG_AMT", this.ds_main.getColumn(i, "AMT")) ;
+				}
+				this.ds_main.applyChange() ; // normal 상태로 초기화
+				
+				if(this.ds_main.getRowCount() != 0)
+				{
+					// 저장되었습니다.\n{0} 하시겠습니까?
+					if ( NXCore.confirm("Qst.Q052", "전표생성") ) {
+						// 저장 후 전표생성
+						this.fn_callSlip() ;
+					}
+				}
+			}
+			break;
+			
+		case "saveSlip" : // 전표생성
+			if(nErrorID == "0")
+			{
+				NXCore.alert("Inf.I114"); //생성되었습니다.
+				
+				// 점포 반품 일자 조회(반품한도도 동시에 체크)
+				//this.fn_getRtnClosDd() ;
+				 
+				if(!NXCore.confirm("Qst.Q058")) //전표를 출력하시겠습니까?
+				{ 
+					//return; 
+				}
+				else 
+				{
+					if(this.ds_ozHdr.getRowCount() == 0) return;
+					if(this.ds_ozDtl.getRowCount() == 0) return ;
+					
+					//application.gv_ozUrl = "http://10.253.43.120:28100/wssOz" ;
+					var oParam = {
+					 "connection.reportname" : "/nstr/TBTB/TBTB010.ozr", //리포트명
+					 "connection.pcount"  : 10,
+					 "connection.args1"   : "gv_compCd="		+application.gv_compCd,	 	 //회사코드
+					 "connection.args2"   : "gv_lngTp="			+application.gv_lngTp,	 	 	 //언어구분
+					 "connection.args3"   : "jsondata="         +this.fn_getDatasetToJson2(this.ds_ozHdr,this.ds_ozDtl)
+					};
+
+					this.gfn_print(this,oParam);
+				}
+				
+				
+				//  점포 반품요청 조회
+				this.fn_search() ;
+			}
+			
+			break;
+		default :
+			break;
+	}
+}
+
+
+
+// 팝업 콜백
+this.fn_PopCallback = function(strID, objRtn) 
+{ 
+	if(NXCore.isEmpty(objRtn)) return;
+
+	// 엑셀업로드 팝업
+	if( strID == "NSTBTB010_P02")  
+	{ 
+		var obj = NXCore.getPopupRetun(this, objRtn);	
+		this.EXCEL_SAVE_YN = obj["pv_save_yn"] ; 
+		//alert(this.EXCEL_SAVE_YN);
+		if(this.EXCEL_SAVE_YN=="Y")
+		{
+			this.fn_search() ;
+		}
+	}
+	
+	
+	// 점포상품조회
+	if(strID == "NSTBTB010_P01")
+	{
+		
+		var obj = NXCore.getPopupRetun(this, objRtn);	
+		var ds = obj["pv_dataset"] ;
+	 	
+	 	var dupYn = "" ;
+	 	var addRow = -1 ;
+	 	for(var i=0; i<ds.getRowCount(); i++){
+			// 중복이 아닐경우 추가
+			if(this.ds_main.findRow("PLU_CD", ds.getColumn(i, "PLU_CD")) < 0){
+				addRow = this.ds_main.addRow() ;
+				this.ds_main.copyRow(addRow, ds, i) ;
+			}
+	 	}
+		
+		// 총 반품금액 계산
+		this.fn_getTotalAmt("amt") ;
+	}
+	// 상품정보 팝업
+	else if( strID == "COMPOPUP010_P21")  
+	{
+		var obj = NXCore.getPopupRetun(this, objRtn);
+		
+		var sIsSave       = obj["pv_isSave"];
+		var sStrOrdEnblYn = obj["pv_strOrdEnblYn"];
+		var sPluCd        = obj["pv_pluCd"];
+		var sNowStk       = obj["pv_nowStck"];
+		
+		var iNowStk  	  = nexacro.toNumber(obj["pv_nowStck"],0);
+		this.ds_main.set_updatecontrol(false);
+		this.ds_main.setColumn(this.ds_main.rowposition,"NSTCK_QTY",iNowStk);
+		this.ds_main.set_updatecontrol(true);
+	}
+	
+	
+	
+}
+
+
+
+/*==============================================================================================
+* 7. Local Function. (사용자 정의 함수)
+*    - 사용자 정의 함수는 fn_xxxx() 형태로 작성  + 기본 이벤트 function
+*==============================================================================================*/
+// 기본값 세팅 [점포코드, 요청일자]
+this.fn_setBaseInfo = function(pOrgCD, pRtnReqDt){
+	if(this.ORG_CD == pOrgCD && this.RTN_REQ_DT == pRtnReqDt){
+		return ;
+	}
+	
+	this.ORG_CD = pOrgCD ;
+	this.RTN_REQ_DT = pRtnReqDt ;
+	
+	// 화면 초기화
+	//this.fn_resetControl();
+	//this.fn_setRtnActive(false);
+	
+	// 점포 반품 일자 조회(반품한도도 동시에 체크)
+	this.fn_getRtnClosDd() ;
+}
+
+// 반품활성화
+this.fn_setRtnActive = function(bRtnClose){
+	if(!bRtnClose){
+        this.btn_excelUpload2.set_enable(false);
+        this.btn_insert.set_enable(false);
+        this.btn_del.set_enable(false) ;
+		this.grd_main.readonly = true ;
+	} else {
+        this.btn_excelUpload2.set_enable(true);
+        this.btn_insert.set_enable(true);
+        this.btn_del.set_enable(true) ;
+		this.grd_main.readonly = false ;
+	}
+}
+
+// 컨트롤 및 변수 초기화
+this.fn_resetControl = function(){
+	this.B_SEARCH = false ;
+	this.med_amt.set_value(0) ;
+	this.med_orgAmt.set_value(0) ;
+	this.med_rtnAmt.set_value(0) ;
+	this.ds_main.clearData() ;	
+}
+
+// 전체금액 계산
+this.fn_getTotalAmt = function(GB){
+
+	//this.alert(GB);
+
+	var iTotAmt = 0 ;
+	var iTotOrgAmt = 0 ;
+	var iTotRtnAmt = 0 ;
+	var sRtnTp = "" ;
+	
+	for(var i=0; i<this.ds_main.getRowCount(); i++){
+		sRtnTp = this.ds_main.getColumn(i, "RTN_TP") ; 
+		trace(sRtnTp);
+		// BSDC 일때만 반품금액 계산
+		if(sRtnTp == this.RTN_TP){
+			if(GB == "amt"){
+				iTotAmt = iTotAmt + nexacro.toNumber(this.ds_main.getColumn(i, "AMT"), 0) ;
+				iTotOrgAmt = iTotOrgAmt + nexacro.toNumber(this.ds_main.getColumn(i, "ORG_AMT"), 0) ;
+			}
+		}
+		
+		if(GB == "amt"){
+			iTotRtnAmt = iTotRtnAmt + nexacro.toNumber(this.ds_main.getColumn(i, "AMT"), 0) ;
+		}
+	}
+	
+	trace("iTotAmt["+iTotAmt+"] iTotOrgAmt["+iTotOrgAmt+"] iTotRtnAmt["+iTotRtnAmt+"]") ;
+	
+	this.med_amt.set_value(iTotRtnAmt) ;
+	this.med_orgAmt.set_value(iTotOrgAmt) ;
+	this.med_rtnAmt.set_value(iTotRtnAmt) ;
+	this.med_itemCnt.set_value(this.ds_main.getRowCount()) ;
+	return iTotAmt ;
+}
+
+// 점포 반품(가능)기간 조회 (반품(금액)한도도 동시에 체크)
+this.fn_getRtnClosDd = function(){
+	if(NXCore.isEmpty(this.ORG_CD) || NXCore.isEmpty(this.RTN_REQ_DT)){
+		this.RTN_CLOS_DD_CHK_YN = "N" ;	// 점포마감시간 확인여부
+		return ;
+	} 
+
+	var dtFrom = new NXDate();
+	var sToday = dtFrom.toFormatString().substr(6, 2) ;
+	
+	this.ds_rtnClosDdInfo.clearData() ;
+	this.ds_cond.clearData() ;
+	this.ds_cond.addRow() ;
+	this.ds_cond.setColumn(0, "ORG_CD", this.ORG_CD) ;
+	this.ds_cond.setColumn(0, "TO_DAY", sToday) ;
+	this.ds_cond.setColumn(0, "PGM_TP", this.PGM_TP) ; // (프로그램구분)
+	
+	var tx = new NXTransaction(this);
+	tx.addInDataset("ds_cond", "ds_cond");
+	tx.addOutDataset("ds_rtnClosDdInfo", "ds_rtnClosDdInfo");
+	tx.setCallback("fn_callback");
+	tx.setService("/ns/tb/tb010/selectRtnClosDd.do");
+	tx.execute("selectRtnClosDd");
+	
+}
+
+// 전표생성
+this.fn_callSlip = function(){
+
+	if(this.RTN_REQ_DT != this.fn_getToday()){
+		// 요청일자가 현재일자와 다릅니다.\n전표생성 작업이 불가능합니다.
+		NXCore.alert("Err.E142") ;
+	} else {
+		
+		this.ds_cond.clearData() ;
+		this.ds_cond.addRow() ;
+		this.ds_cond.setColumn(0, "CO_CD" ,application.gv_compCd);
+		this.ds_cond.setColumn(0, "ORG_CD", this.ORG_CD) ;
+		this.ds_cond.setColumn(0, "RTN_REQ_DT", this.RTN_REQ_DT) ;
+		
+		this.ds_cond.setColumn(0, "RTN_TP", this.RTN_TP) ; 			//(반품구분 S013 = BSDC반품[A])    
+		this.ds_cond.setColumn(0, "REQ_AMT", this.med_amt.value) ;
+		this.ds_cond.setColumn(0, "RTN_AMT", this.med_rtnAmt.value) ;
+		this.ds_cond.setColumn(0, "LOAN_TP", this.LOAN_TP) ; 		//여신구분
+		this.ds_cond.setColumn(0, "WM_SHIFT_TP", this.WM_SHIFT_TP); //물류이동유형(B134)       
+		
+		var tx = new NXTransaction(this);
+		tx.addInDataset ("ds_cond"		, "ds_cond");
+		tx.addOutDataset("ds_slipHdr"	, "ds_slipHdr");
+		tx.addOutDataset("ds_detail"	, "ds_detail");
+		tx.addOutDataset("ds_ozHdr"		, "ds_ozHdr");
+		tx.addOutDataset("ds_ozDtl"		, "ds_ozDtl");
+		tx.setCallback("fn_callback");
+		tx.setService("ns/tb/tb010/saveSlip.do");
+		tx.execute("saveSlip");
+	}
+}
+
+// 오늘일자 조회
+this.fn_getToday = function(){
+	var dtFrom = new NXDate();
+	return dtFrom.toFormatString() ;
+}
+
+// 엑셀다운로드
+this.fn_excel = function(){
+	if( this.ds_main.getRowCount() <= 0)
+	{
+		NXCore.alert("Com.C204"); //조회된 데이터가 없습니다.
+		return;
+	}
+	
+	var pgmNm = "반품등록및확정_BSD반품";
+	var nIndex = this.grd_main.getBindCellIndex( "body", "REQ_QTY");
+	this.grd_main.setCellProperty('Body', nIndex,'mask',"");
+	
+	var arrObj = new Array();
+	var objGrid = {};
+		objGrid.grid = this.grd_main;
+		objGrid.title = pgmNm;
+		objGrid.sheetName = "반품 상품 리스트";
+		
+	arrObj.push(objGrid);
+	
+	// Grid Export
+	this.gfn_gridExcelExport(arrObj,pgmNm, "active");
+	
+	
+	this.grd_main.setCellProperty('Body', nIndex,'mask',"!##9");
+}
+
+// 수정여부 확인
+this.fn_chkUpdateYn = function(){
+	return NXCore.isModified(this.ds_main) ;
+}
+
+/*==============================================================================================
+* 8. 컴포넌트 이벤트 작성
+*==============================================================================================*/
+
+// 행추가
+this.btn_insert_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	// 조회여부 확인
+    if(!this.B_SEARCH){
+        // 먼저 조회후 사용하여 주시기 바랍니다.
+        NXCore.alert("Warn.W042") ;
+        return ;
+    }
+    
+    if(NXCore.isEmpty(this.ORG_CD))
+    {
+        NXCore.alert("Warn.W049","점포"); //{0} 은(는) 필수 조회 조건입니다.
+        return;
+    } 
+    
+    var paramOrgCd      = this.ORG_CD;
+    
+    var strFormId  = "NSTBTB010_P01";              // 전체 시스템에서 유일한 명칭을 사용한다.
+    var strUrl     = "TBTB::NSTBTB010_P01.xfdl";   // URL
+    var positions  = {width:890, height:500};        // 팝업창의 넓이/높이는 필수사항 (프레임의 중앙에 보여줌)
+    var objArguments = {paramOrgCd:paramOrgCd
+                       ,paramGdsNm:""
+                       ,paramMultSelect:"true"
+                       ,paramMode:"BSDC"        // 조회모드[시즌행사(EVT), 한도(LIMIT),  BSDC]
+                       };    // 파라메타 (객체를 전달할 수 있다)
+    var options = {callback:"fn_PopCallback",titletext:"점포상품 조회"};
+
+    this.gfn_showPopup(strFormId, strUrl, positions, objArguments, options);
+}
+
+
+
+
+// 전표생성 버튼 처리
+this.btn_conf_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.ds_main.getRowCount() > 0){
+		
+		//현재 재고조사 여부 확인
+ 		if(this.fn_chkInv(this.ds_cond.getColumn(0,"ORG_CD"))) return;
+ 		
+		if(NXCore.isModified(this.ds_main)){
+			// 변경된 데이터가 존재합니다.\n저장 후 {0} 작업을 하시기 바랍니다.
+			NXCore.alert("Inf.I100", "전표생성") ;
+			return ;
+		} 
+		
+		// {0} 하시겠습니까?
+		if( !NXCore.confirm("Qst.Q010", "전표생성") ) return;
+
+		// 전표생성
+		this.fn_callSlip() ;
+		
+	} else {
+		// {0} 를(을) 확인 후 진행 하세요.
+		NXCore.alert("Inf.I101", "정산일자") ;
+	}
+}
+
+// 행삭제
+this.btn_del_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var iRowPos = this.ds_main.rowposition ;
+	if(iRowPos > -1)
+	{
+
+		var sRtnTp = this.ds_main.getColumn(iRowPos, "RTN_TP") ;
+		var iAmt = nexacro.toNumber(this.ds_main.getColumn(iRowPos, "AMT"), 0) ;
+		var iOrgAmt = nexacro.toNumber(this.ds_main.getColumn(iRowPos, "ORG_AMT"), 0) ;
+	
+		this.med_amt.set_value(nexacro.toNumber(this.med_amt.value, 0) - iAmt) ;
+		this.med_orgAmt.set_value(nexacro.toNumber(this.med_orgAmt.value, 0) - iOrgAmt) ;
+		this.med_rtnAmt.set_value(nexacro.toNumber(this.med_rtnAmt.value, 0) - iAmt) ;
+		this.ds_main.deleteRow(iRowPos) ;
+		
+		// 건수
+		this.med_itemCnt.set_value(this.ds_main.getRowCount()) ;
+		
+
+	} else {
+		// 삭제 할 데이터를 선택 하십시오.
+		NXCore.alert("Err.E072") ;
+	}
+}
+
+// 그리드 데이터 수정처리
+this.ds_main_cancolumnchange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	// 요청수량 변경
+	if(e.columnid == "REQ_QTY"){
+		var iReqQty 	= nexacro.toNumber(e.newvalue, 0) ;								// 요청수량
+		var iRtnEnblQty = nexacro.toNumber(obj.getColumn(e.row,"RTN_ENBL_QTY"), 0) ; 	// 반품가능수량
+		var iNstckQty 	= nexacro.toNumber(obj.getColumn(e.row,"NSTCK_QTY"),0); 	 	// 현재고
+		
+		if(iReqQty > 0)
+		{
+			/* 반품가능수량 체크할 필요 없음 2022.04.13 회의
+			if(iReqQty > iRtnEnblQty)
+			{
+				// {0}: 값이 {1}보다 작아야 합니다.
+				NXCore.alert("Warn.W071", ["요청수량","반품가능수량"]) ;
+				return false;
+			} 
+			else 
+			*/
+			if( iReqQty > iNstckQty )
+			{
+				NXCore.alert("Warn.W131", ["요청수량","현재고"]) ; // Warn.W131={0}: 값이 {1}보다 작거나 같아야합니다.
+				return false;
+			}
+			else 
+			{
+				this.st_chkMessage.set_text("") ;	
+				
+			}
+		}
+	}
+	return true;
+}
+
+// 그리드 데이터 수정처리
+this.ds_main_oncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	// 요청수량 변경
+	if(e.columnid == "REQ_QTY"){
+		var iSupPrc = nexacro.toNumber(obj.getColumn(e.row, "SUP_PRC"), 0) ;		// 공급가
+		var iReqQty = nexacro.toNumber(obj.getColumn(e.row, "REQ_QTY"), 0) ;		// 반품수량
+		var iRtnEnblQty = nexacro.toNumber(obj.getColumn(e.row, "RTN_ENBL_QTY"), 0) ; // 반품가능수량
+		var sRtnTp = obj.getColumn(e.row, "RTN_TP") ; 								// 반품구분
+		
+		var iAmt = iReqQty * iSupPrc ;
+		obj.setColumn(e.row, "AMT", iAmt) ;
+		
+		if(iReqQty == 0){
+			this.st_chkMessage.set_text("") ;
+		
+		} else if(iReqQty > 0){
+		
+			/*
+			   반품가능수량 체크할 필요 없음 2022.04.13 회의
+			// 한도수량 체크
+			if(sRtnTp == "1"){
+				if(iReqQty > iRtnEnblQty){
+					// 입력 수량이 반품 가능수량보다 큽니다.
+					this.st_chkMessage.set_text("입력 수량이 반품 가능수량보다 큽니다.") ;
+				} else {
+					this.st_chkMessage.set_text("") ;	
+				}
+			} else {
+				this.st_chkMessage.set_text("") ;
+			}
+			 */
+		}
+		
+		this.fn_getTotalAmt("amt") ;
+		
+		//0으로 변경시 
+		if ( nexacro.toNumber(this.ds_main.getOrgColumn(e.row,"REQ_QTY")) != 0 && nexacro.toNumber(e.newvalue) == 0)
+		{	
+			this.ds_main.setColumn(e.row,"DELYN","Y");
+		}
+	}
+}
+
+// 그리드 엔터키 처리
+this.grd_main_onenterdown = function(obj:Grid, e:nexacro.GridEditEventInfo)
+{
+	if(this.ds_main.rowcount > 0 && this.ds_main.rowcount - 2 >= e.row){
+		this.ds_main.set_rowposition(e.row + 1);
+		this.grd_main.setCellPos(e.cell);
+	}
+}
+
+
+
+this.btn_searchNm_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!NXCore.isEmpty(this.ed_searchNm.value)){
+		var sColId = "" ;
+		var sSearchNm = nexacro.trim(this.ed_searchNm.value) ;
+		var iSearchRow = -1 ;
+		
+		// 숫자이면 상품코드
+		if(nexacro.isNumeric(sSearchNm)){
+			sColId = "GDS_CD" ;
+			iSearchRow = this.fn_getSearchRow(this.ds_main, sColId, sSearchNm, this.ds_main.rowposition+1, this.ds_main.getRowCount()) ;
+		// 문자이면 상품명
+		} else {
+			sColId = "GDS_NM" ;
+			iSearchRow = this.fn_getSearchRow(this.ds_main, sColId, sSearchNm, this.ds_main.rowposition+1, this.ds_main.getRowCount()) ;
+		}
+		
+		if(iSearchRow >= 0 )
+		{
+			this.grd_main.setCellPos(this.grd_main.getBindCellIndex("body", sColId));
+			this.ds_main.set_rowposition(iSearchRow);
+		} else {
+			NXCore.alert("Err.E077", [this.ed_searchNm.text]); //Err.E077={0} 이(가) 존재하지 않습니다.
+		}
+	}
+}
+
+
+// 조회목록 상품조회
+this.fn_getSearchRow = function(dsObj, colId, val, startInx, endInx){
+	var iSearchRow = -1 ;
+	if(!NXCore.isEmpty(startInx)){
+		iSearchRow = dsObj.findRowExpr("new String("+colId+").indexOf('"+val+"') >= 0 ", startInx, endInx) ;
+		
+		// 처음부터 다시 찾기
+		if(iSearchRow < 0){
+			iSearchRow = dsObj.findRowExpr("new String("+colId+").indexOf('"+val+"') >= 0 ", 0, endInx) ;
+		}
+	
+	} else {
+		iSearchRow = dsObj.findRowExpr("new String("+colId+").indexOf('"+val+"') >= 0 ", 0, endInx) ;
+	}
+	
+	return iSearchRow ;
+	
+}
+
+
+/*========= 재고조사 상태 체크 ==============================*/
+this.fn_chkInv = function( strOrgCd)
+{
+	this.ds_cond.setColumn(0,"ORG_CD", strOrgCd);
+	
+	var tx = new NXTransaction(this);
+		
+		tx.addInDataset	("ds_cond", "ds_cond:A");
+		tx.addOutDataset("ds_InvChk", "ds_InvChk");
+		tx.setCallback	("fn_callback");
+		tx.setService	("ns/sm/si010/selectInvChk.do");  
+		tx.setOption    ( {'async':false} );
+		tx.execute		("selectInvChk");
+		
+		var invChk = 0;
+		if(this.ds_InvChk.getRowCount() > 0)
+		{
+			invChk = this.ds_InvChk.getColumn(0,"INVCHK");
+		}
+		
+		if(invChk != "0")
+		{
+			NXCore.alert("Inf.I115"); //Inf.I115=현재 재고조사중이므로 처리가 불가능합니다.
+			return true;
+		}
+		else return false;
+}
+
+//상품정보팝업
+this.grd_main_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var sColId = nexacro.trim(obj.getCellProperty("Body",e.cell,"text").substr(5).toUpperCase())+"";
+	if( sColId == "GDS_CD" || sColId == "GDS_NM")
+	{
+		var paramOrgCd  = this.ds_cond.getColumn(0,"ORG_CD");
+		var paramOrdDt  = this.gfn_selectOrdDate();
+		var paramPluCd  = this.ds_main.getColumn(e.row,"GDS_CD");
+		trace('paramOrgCd=' + paramOrgCd + ' paramOrdDt='  + paramOrdDt + ' paramPluCd='  + paramPluCd );
+		
+		if(NXCore.isEmpty(paramOrgCd) ||NXCore.isEmpty(paramPluCd) )
+		{
+			this.alert("상품정보가 올바르지 않습니다. 상품정보 팝업을 실행할 수 없습니다.");	//paramPluCd가 안넘어가면 DB 뻤는 현상 있음.
+			return false;
+		}
+		
+		var strFormId    = "COMPOPUP010_P21";	 // 전체 시스템에서 유일한 명칭을 사용한다.
+		var strUrl       = "POPUP::COMPOPUP010_P21_1.xfdl";	 // URL
+		var positions    = {width:900, height:552};	 // 팝업창의 넓이/높이는 필수사항 (프레임의 중앙에 보여줌)
+		var objArguments = {
+							paramOrgCd:paramOrgCd
+						   ,paramOrdDt:paramOrdDt
+						   ,paramPluCd:paramPluCd
+						   };	 // 파라메타 (객체를 전달할 수 있다)
+		var options	 = {callback:"fn_PopCallback",titletext:"상품정보"};	 // 팝업창 옵션 {modal:true, layered:false, showtitlebar:true, autosize:true, resizable:true, opened:'focus'}
+
+		this.gfn_showPopup(strFormId, strUrl, positions, objArguments, options);
+	}
+}
+
+
+this.fn_getDatasetToJson2 = function(dsObj1:Dataset, dsObj2:Dataset) 
+{
+	var stringBuffer = new String();
+		stringBuffer += "{'"+dsObj1.name+"':[";
+	for(var j = 0;j < dsObj1.getRowCount(); j++)
+	{
+		stringBuffer += "{";
+		for(var i = 0;i < dsObj1.getColCount(); i++)
+		{
+			stringBuffer += "'"+dsObj1.getColID(i)+"':";
+			if(!NXCore.isEmpty(dsObj1.getColumn(j,dsObj1.getColID(i)))){
+				stringBuffer += "'"+dsObj1.getColumn(j,dsObj1.getColID(i))+"'";
+			}else{
+				stringBuffer += "''";
+			}
+			if(dsObj1.getColCount()-1 > i)
+			{
+				stringBuffer += ",";
+			}
+		}
+			stringBuffer += "}";
+			
+		if(dsObj1.getRowCount()-1 > j)
+		{
+			stringBuffer += ",";
+		}
+	}
+	stringBuffer += "],";
+	
+	stringBuffer += "'"+dsObj2.name+"':[";
+	for(var j = 0;j < dsObj2.getRowCount(); j++)
+	{
+		stringBuffer += "{";
+		for(var i = 0;i < dsObj2.getColCount(); i++)
+		{
+			stringBuffer += "'"+dsObj2.getColID(i)+"':";
+			if(!NXCore.isEmpty(dsObj2.getColumn(j,dsObj2.getColID(i)))){
+				stringBuffer += "'"+dsObj2.getColumn(j,dsObj2.getColID(i))+"'";
+			}else{
+				stringBuffer += "''";
+			}
+			if(dsObj2.getColCount()-1 > i)
+			{
+				stringBuffer += ",";
+			}
+		}
+			stringBuffer += "}";
+			
+		if(dsObj2.getRowCount()-1 > j)
+		{
+			stringBuffer += ",";
+		}
+	}
+	stringBuffer += "]}";
+
+	return stringBuffer;
+}
+
+this.ed_searchNm_onkeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	// enter key 처리
+	if("13" == e.keycode){
+		this.btn_searchNm_onclick() ;
+	}
+}
+
+this.btn_excelUpload_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(!this.parent.fn_chkOrgCd())
+	{
+		// {0} 을(를) 선택하여 주십시오.
+		NXCore.alert("Inf.I005", "점포") ;
+		this.parent.div_cond.div_Str.edt_Cd.setFocus() ;
+		return false ;;
+	}
+	;
+	
+	
+	if(NXCore.isModified(this.ds_main))
+	{
+		// 변경된 사항이 있습니다.\n계속 진행시 변경사항은 반영되지 않습니다.\n계속 진행하시겠습니까?
+		if( !NXCore.confirm("Qst.Q050") ) { 
+			return;
+		}
+		
+		this.ds_main.clearData();
+	}
+	  
+
+	// 팝업호출
+	var strFormId  = "NSTBTB010_P02";
+	var strUrl     = "TBTB::NSTBTB010_P02.xfdl";	// URL
+	var positions  = {width:1100, height:680};		// 팝업창의 넓이/높이는 필수사항 (프레임의 중앙에 보여줌)
+	var objArguments = {
+						 paramOrgCd:this.ORG_CD				// 점포코드
+						,paramRtnReqDt:this.RTN_REQ_DT		// 반품요청일자.
+						,paramWmShiftTp:this.WM_SHIFT_TP  	// 물류이동유형
+						,paramPgmTp:this.PGM_TP   			// 프로그램구분
+						,paramRtnTp:this.RTN_TP   			// S013 반퓸유형 
+					   
+					   };	 // 파라메타 (객체를 전달할 수 있다)
+					   
+	var options = {callback:"fn_PopCallback",titletext:"BSDC반품(엑셀업로드)"};
+	this.gfn_showPopup(strFormId, strUrl, positions, objArguments, options);
+	
+}
+
+]]></Script>
+  </Form>
+</FDL>
