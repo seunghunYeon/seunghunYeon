@@ -1,0 +1,76 @@
+
+이 화면은 기존 반품등록 화면에 BSD반품을 추가했습니다.
+점포선택시 일반점포에서는 보이지 않고 BSD점포인 경우만 보이게됩니다.
+화면단 로직은 기존 한도반품과 시즌/행사를 참고했고 전표생성 및 여신등록은 초도반품 과 똑같이 개발했습니다.
+
+BSD반품이 다른 반품과 다른점은 반품가능금약, 반품가능일자, 반품가능수량, 반품가능여부에 상관없이 반품이 가능합니다.
+
+
+소스보면서...
+(전역코드)
+    물류코드와 여신구분은 초도와 같은 코드를 사용중입니다. (여신구분:64, 물류코드:1220)
+
+(저장시체크로직)
+    기존에 체크하던 반품가능수량 제거했습니다.
+    현재 재고조사중인지 체크.
+
+(저장서비스보여주면서)
+    - 수량이 0인경우 삭제 처리(DEL_YN을 1로 자동 insert or update)
+    - 기존에 데이터가 있으면 업데이트. 없으면 insert => 저장시 merge문 사용        
+
+(저장콜백)
+    저장 완료후 전표생성여부 물어보고 전표생성합니다.
+
+(그리드 데이터 수정처리)
+    요청수량 변경시 현재고랑 수량 체크.
+
+(그리드 데이터 수정처리)
+    요청수량 변경시 총금액 수정.
+
+
+[이제 엑셀로 이동.]
+
+
+해당화면은 엑셀로 BSD반품을 올리는 화면입니다.
+먼저 양식을 다운로드 받아 작성해서 올리면 됩니다.
+엑셀을 올리게 되면 쿼리단에서 밸리데이션 체크를 합니다.
+
+(쿼리보여줌 -  체크로직쪽만 보여주면 될 듯.)
+selectChkExcelUpload
+      
+                  CASE WHEN PLU_CD IS NULL  THEN 'PLU코드는 필수입니다.'
+                   WHEN (HM_PLU_CD IS NULL AND HM_B_PLU_CD IS NULL AND BM_PLU_CD IS NULL) OR (BUY_GDS_YN = '0' AND HM_PLU_CD IS NULL) OR (BUY_GDS_YN = '1' AND (HM_B_PLU_CD IS NULL OR BM_PLU_CD IS NULL)) THEN '해당 상품코드를 찾을 수 었습니다.'/*상품추가 팝업 쿼리 기준. => 점포상품마스터 기준으로 공통상품마스터 OR 사입마스터에 값이 존재하는지 체크*/
+                   <!-- 2022.04.19 BSD반품은 상품의 반품가능여부 안보는걸로 수정
+                   WHEN RTN_ENBL_YN != '1' THEN '반품이 불가능한 상품입니다.'
+                   WHEN /*BUY_GDS_YN = '1' AND STR_RTN_ENBL_YN=0*/ STR_RTN_ENBL_YN!=1 THEN '점포 반품 가능여부가 불가한 상태입니다.'  /*점포가능상태가 N인경우*/ -->
+
+    <![CDATA[
+                   WHEN FNB_GDS_TP != '00' THEN '반품가능한 상품이 아닙니다.(공병,공박스등은 반품 제외 상품)'  /*FNB상품구분<F139>  00:상품*/
+                   WHEN HM_PTN_CD IS NULL AND CM_PTN_CD IS NULL THEN '등록할 수 없는 상품코드입니다.(거래처가 존재하지 않습니다.)' /*거래처코드가 없는 경우*/
+                   WHEN DUPLICATE_PLU_CD > 1 THEN '해당 상품코드는 두번이상 입력되었습니다.'
+                   WHEN REQ_QTY IS NULL THEN '수량은 필수입니다.'
+                   WHEN TRANSLATE(REQ_QTY,'A1234567890','A') IS NOT NULL THEN '수량은 양의 정수만 입력 가능합니다.'
+                   WHEN REQ_QTY < 0 THEN '수량이 0보다 작을 수 없습니다.'
+                  /* WHEN REQ_QTY > RTN_ENBL_QTY THEN '입력 수량이 반품 가능 수량보다 큽니다.(반품가능수량:'||RTN_ENBL_QTY||')'  반품가능수량 체크할 필요 없음 2022.04.13 회의 */
+                   WHEN REQ_QTY > NSTCK_QTY    THEN '입력 수량이 현재고 보다 큽니다.(현재고:'||NSTCK_QTY||')'
+                   WHEN STR_RTN_RSN_TP IS NOT NULL
+                    AND (SELECT 1 FROM US_STRADM.TSB_COMDTL_NMG WHERE COM_GRP_CD = 'D305' AND COM_CD = STR_RTN_RSN_TP) IS NULL /*D305 : 점포반품사유구분*/
+                   THEN STR_RTN_RSN_TP||'은 잘못된 사유구분 코드입니다.'
+				   
+(
+오류나는거 보여주고 / 오류내역 수정 후 올리면 된다고 이야기 해준다.
+그리고 저장되는건 하나보여주고 닫히면서 전표생성할거냐고 물어보는거 보여준다.
+)
+				   
+    
+    -------------- 주요테이블 -------------------
+	US_STRADM.TNB_BUYGDS_MST SS/* ST_점포현금매입상품 */
+	
+    US_STRADM.TNB_STRGDS_MST A /* ★TNB_점포상품마스터★ */
+    US_STRADM.TNB_HQMGDS_MST B /* TNB_공통상품마스터 */
+    US_STRADM.TNB_BUYGDS_MST B /* TNB_사입상품마스터 */
+    
+    -------------- 주요코드값 -------------------
+    RTN_TP = "A"                // S013 반퓸유형  A BSDC반품          
+    WM_SHIFT_TP = "1220"        // 물류이동유형(B134)         
+    LOAN_TP = "64"              // (여신구분(A122) = 초도반품(64))
